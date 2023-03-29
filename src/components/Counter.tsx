@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useState } from "react";
+import React, { ChangeEvent, FC, useEffect, useState } from "react";
 // import styles from "@/styles/Counter.module.css";
 
 interface Props {
@@ -9,6 +9,22 @@ interface Props {
 export const Counter: FC<Props> = ({ header, defaultValue }) => {
   const [count, setCount] = useState(defaultValue);
   const [incrementorValue, setIncrementorValue] = useState(1);
+  const [bigEnoughCount, setBigEnoughCount] = useState(defaultValue >= 15);
+
+  useEffect(() => {
+    let timerId: NodeJS.Timeout | null = null;
+    if (count >= 15) {
+      timerId = setTimeout(() => {
+        setBigEnoughCount(true);
+      }, 300);
+    }
+
+    return function cleanup() {
+      if (timerId) {
+        clearTimeout(timerId);
+      }
+    };
+  }, [count]);
 
   const handleIncrementorValueChange = (
     event: ChangeEvent<HTMLInputElement>
@@ -53,6 +69,11 @@ export const Counter: FC<Props> = ({ header, defaultValue }) => {
             onBlur={handleIncrementorInputBlur}
           />
         </div>
+        {bigEnoughCount ? null : (
+          <h1 arial-label="display-text-for-counter-less-than-15">
+            I am too small
+          </h1>
+        )}
       </div>
     </section>
   );

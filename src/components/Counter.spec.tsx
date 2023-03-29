@@ -1,11 +1,20 @@
-import { screen, render, fireEvent } from "@testing-library/react";
+import {
+  screen,
+  render,
+  fireEvent,
+  waitFor,
+  waitForElementToBeRemoved,
+} from "@testing-library/react";
 import { Counter } from "./Counter";
 import user from "@testing-library/user-event";
 
 describe("Counter", () => {
-  const setup = () =>
+  const setup = (value = 0) =>
     render(
-      <Counter header="Welcome to the Counter Application" defaultValue={0} />
+      <Counter
+        header="Welcome to the Counter Application"
+        defaultValue={value}
+      />
     );
 
   it("should render the correct header", () => {
@@ -27,10 +36,10 @@ describe("Counter", () => {
     });
     await user.click(incrementButton);
     await user.click(incrementButton);
-    expect(screen.getByText(/Current Count: 2/)).toBeInTheDocument();
+    await screen.findByText(/Current Count: 2/);
   });
 
-  it("Reduce Counter to -2 when increment button is clicked twice", async () => {
+  it("Reduce Counter to -2 when decrement button is clicked twice", async () => {
     setup();
 
     const decrementButton = screen.getByRole("button", {
@@ -79,5 +88,14 @@ describe("Counter", () => {
     await user.type(incrementBox, "{backspace}5");
     await user.click(decrementButton);
     expect(screen.getByText(/Current Count: -5/)).toBeInTheDocument();
+  });
+
+  it("big enough text shoul disappear in 300ms after the value of the count becomes 0", async () => {
+    setup(14);
+    const incrementButton = screen.getByRole("button", {
+      name: "increment-counter",
+    });
+    await user.click(incrementButton);
+    await waitForElementToBeRemoved(() => screen.queryByText(/I am too small/));
   });
 });
