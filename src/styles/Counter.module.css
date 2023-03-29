@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.counter-container {
+  width: 90%;
+  max-width: 700px;
+  color: #fff;
+  background-color: #36454f;
+  padding: 3rem 1rem;
+  border-radius: 0.25rem;
+}
+
+.counter-title {
+  font-size: 2rem;
+  font-weight: 400;
+}
