@@ -40,34 +40,25 @@ describe("Counter", () => {
     expect(screen.getByText(/Current Count: -2/)).toBeInTheDocument();
   });
 
-  it("should have an incrementor text box whose value cannot go below 1 and when increment button is clicked the increment is by the value of the number in the increment box", () => {
+  it("increment value input should revert to 1 when blurred if the value entered is less than 1", () => {
     setup();
 
-    const incrementBox = screen.getByRole("input", {
-      name: "incrementor-value",
-    });
+    const incrementBox = screen.getByLabelText("incrementor-value");
     fireEvent.change(incrementBox, { target: { value: "0" } });
-    expect(
-      screen.getByRole("input", { name: "incrementor-value" })
-    ).toHaveValue("1");
+    fireEvent.blur(incrementBox);
+    expect(screen.getByLabelText("incrementor-value")).toHaveValue("1");
   });
 
-  it("incrementor value should be 12 when a user types '1ab2'", () => {
+  it("incrementor value should be 12 when a user types '1a2'", () => {
     setup();
-    const incrementBox = screen.getByRole("input", {
-      name: "incrementor-value",
-    });
-    fireEvent.change(incrementBox, { target: { value: "1ab2" } });
-    expect(
-      screen.getByRole("input", { name: "incrementor-value" })
-    ).toHaveValue("12");
+    const incrementBox = screen.getByLabelText("incrementor-value");
+    fireEvent.change(incrementBox, { target: { value: "1a2" } });
+    expect(screen.getByLabelText("incrementor-value")).toHaveValue("12");
   });
 
   it("the count should increase by the incrementor value, count should be 5 when the incrementor value is 5 and the increment button is clicked", () => {
     setup();
-    const incrementBox = screen.getByRole("input", {
-      name: "incrementor-value",
-    });
+    const incrementBox = screen.getByLabelText("incrementor-value");
     const incrementButton = screen.getByRole("button", {
       name: "increment-counter",
     });
@@ -78,9 +69,7 @@ describe("Counter", () => {
 
   it("the count should increase by the incrementor value, count should be -5 when the incrementor value is 5 and the decrement button is clicked", () => {
     setup();
-    const incrementBox = screen.getByRole("input", {
-      name: "incrementor-value",
-    });
+    const incrementBox = screen.getByLabelText("incrementor-value");
     const decrementButton = screen.getByRole("button", {
       name: "decrease-counter",
     });

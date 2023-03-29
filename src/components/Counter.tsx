@@ -13,9 +13,14 @@ export const Counter: FC<Props> = ({ header, defaultValue }) => {
   const handleIncrementorValueChange = (
     event: ChangeEvent<HTMLInputElement>
   ) => {
-    const value = event.target.value.replace(/\D/, "");
-    if (Number(value) > 0) {
-      setIncrementorValue(Number(value));
+    const value = Number(event.target.value.replace(/\D/, "")) ?? 0;
+    setIncrementorValue(value);
+  };
+
+  const handleIncrementorInputBlur = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = Number(event.target.value.replace(/\D/, "")) ?? 0;
+    if (value > 0) {
+      setIncrementorValue(value);
       return;
     }
     setIncrementorValue(1);
@@ -42,9 +47,10 @@ export const Counter: FC<Props> = ({ header, defaultValue }) => {
           <label>Incrementor Value</label>
           <input
             type="text"
-            aria-label="increment-counter"
+            aria-label="incrementor-value"
             value={incrementorValue}
             onChange={handleIncrementorValueChange}
+            onBlur={handleIncrementorInputBlur}
           />
         </div>
       </div>
