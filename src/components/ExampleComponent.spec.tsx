@@ -4,6 +4,7 @@ import { mocked } from "jest-mock";
 import { DataGrid } from "@mui/x-data-grid";
 
 import { ExampleComponent } from "./ExampleComponent";
+import { rows, columns } from "./ExampleComponent";
 
 jest.mock("@mui/x-data-grid", () => ({
   ...jest.requireActual("@mui/x-data-grid"),
@@ -26,7 +27,24 @@ describe("Example Component Test", () => {
   });
 
   it("should render table when props are passed", () => {
-    render(<ExampleComponent onMoney={jest.fn} />);
+    render(<ExampleComponent onMoney={jest.fn()} />);
     expect(mockedDataGrid).toHaveBeenCalledTimes(1);
+    expect(mockedDataGrid).toHaveBeenLastCalledWith(
+      {
+        rows: rows,
+        columns: columns,
+        initialState: {
+          pagination: {
+            paginationModel: {
+              pageSize: 5,
+            },
+          },
+        },
+        pageSizeOptions: [5],
+        checkboxSelection: true,
+        disableRowSelectionOnClick: true,
+      },
+      {}
+    );
   });
 });
