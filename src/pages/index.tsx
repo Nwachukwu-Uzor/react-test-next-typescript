@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import { Counter } from "@/components";
+import { ExampleComponent } from "@/components/ExampleComponent";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,6 +19,11 @@ export default function Home() {
       <main className={styles.main}>
         <h1>Testing Initialized</h1>
         <Counter defaultValue={0} header="Welcome to this Awesome Counter!" />
+        <ExampleComponent
+          onMoney={(n: number) => {
+            console.log(n);
+          }}
+        />
       </main>
     </>
   );
