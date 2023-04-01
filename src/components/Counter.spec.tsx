@@ -2,7 +2,6 @@ import {
   screen,
   render,
   fireEvent,
-  waitFor,
   waitForElementToBeRemoved,
 } from "@testing-library/react";
 import { Counter } from "./Counter";
@@ -37,6 +36,7 @@ describe("Counter", () => {
     await user.click(incrementButton);
     await user.click(incrementButton);
     await screen.findByText(/Current Count: 2/);
+    expect(screen.getByText(/Current Count: 2/)).toBeInTheDocument();
   });
 
   it("Reduce Counter to -2 when decrement button is clicked twice", async () => {
@@ -97,5 +97,6 @@ describe("Counter", () => {
     });
     await user.click(incrementButton);
     await waitForElementToBeRemoved(() => screen.queryByText(/I am too small/));
+    expect(screen.queryByText(/I am too small/)).not.toBeInTheDocument();
   });
 });

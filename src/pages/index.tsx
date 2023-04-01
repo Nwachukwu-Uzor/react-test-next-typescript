@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import { Counter } from "@/components";
 import { ExampleComponent } from "@/components/ExampleComponent";
+import { RandomImageFetching } from "@/components/RandomImageFetching/RandomImageFetching";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,12 +19,13 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <h1>Testing Initialized</h1>
-        <Counter defaultValue={0} header="Welcome to this Awesome Counter!" />
+        {/* <Counter defaultValue={0} header="Welcome to this Awesome Counter!" />
         <ExampleComponent
           onMoney={(n: number) => {
             console.log(n);
           }}
-        />
+        /> */}
+        <RandomImageFetching />
       </main>
     </>
   );
